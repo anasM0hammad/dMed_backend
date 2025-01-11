@@ -93,10 +93,16 @@ const signup = async (req, res, next) => {
 
     try{
         const address = body.address;
-        const first_name = body.first_name;
-        const last_name = body.last_name;
+        const first_name = body.firstName;
+        const last_name = body.lastName;
         const role = body.role;
         const gender = body.gender;
+
+        if(!address || !first_name || !last_name || !role || !gender){
+            return res.status(400).json({
+                message: 'bad request'
+            });
+        }
 
         const userData = {
             _id: address,
@@ -114,11 +120,23 @@ const signup = async (req, res, next) => {
         }
 
         if(role === 'doctor'){
+            if(!body.degree){
+                return res.status(400).json({
+                    message: 'bad request'
+                });
+            }
+
             moreData['degree'] = body.degree;
             const doctor = new Doctor(moreData);
             await doctor.save();
         }
         else{
+            if(!body.dob){
+                return res.status(400).json({
+                    message: 'bad request'
+                });
+            }
+
             moreData['dob'] = body.dob;
             const patient = new Patient(moreData);
             await patient.save();

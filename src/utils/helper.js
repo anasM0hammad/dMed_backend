@@ -7,7 +7,8 @@ const generateNonce = () => {
 
 const signatureVerification = (publicAddress, nonce, signature) => {
     const msg = `I'm signing my one time nonce ${nonce}`;
-    const msgBuffer = ethUtils.toBuffer(msg);
+    // const msgBuffer = ethUtils.toBuffer(msg);
+    const msgBuffer = new Buffer(msg);
     const msgHash = ethUtils.hashPersonalMessage(msgBuffer);
     const signatureBuffer = ethUtils.toBuffer(signature);
     const signatureParams = ethUtils.fromRpcSig(signatureBuffer);

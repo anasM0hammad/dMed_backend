@@ -53,6 +53,8 @@ const login = async (req, res, next) => {
         }
         const nonce = user.nonce;
 
+        // TODO: Nonce we change for each successful login but we should also change the nonce for each API call try irrespective for response status
+
         // 3. verify signature and nonce
         const isVerified = signatureVerification(address, nonce, signature);
         if(!isVerified){
@@ -62,6 +64,7 @@ const login = async (req, res, next) => {
         }
 
         // 4. Generate JWT for user
+        const role = user.role;
         const token = jwt.sign({address, role}, process.env.SALT);
         let userData;
         if(user.role === 'doctor'){
@@ -77,11 +80,12 @@ const login = async (req, res, next) => {
         
         return res.status(200).json({
             accessToken: token,
-            ...userData
+            role,
+            ...userData._doc
         });
     }
     catch(error){
-        console.log(err);
+        console.log(error);
         return res.status(500).json({
             message: 'Internal server error'
         });

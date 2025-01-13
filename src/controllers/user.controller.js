@@ -18,15 +18,15 @@ const getPatient = async (req, res, next) => {
                 message: 'patient id is missing'
             });
         }
-    
-        const user = await User.findById(patientId);
+        
+        const user = await User.findById(patientId.toLowerCase());
         if(!user){
             return res.status(404).json({
                 message: 'patient not found'
             });
         }
     
-        const patient = await Patient.findById(patientId);
+        const patient = await Patient.findById(patientId.toLowerCase());
         const data = {
             name: `${patient.first_name} ${patient.last_name}`,
             gender: patient.gender,

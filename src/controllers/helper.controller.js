@@ -3,11 +3,11 @@ const jwt = require('jsonwebtoken');
 const authorizationGuard = (req, res, next) => {
     try{
         const headers = req.headers;
-        const accessToken = headers['Authorization'];
+        const accessToken = headers['authorization'];
         const role = headers['x-role'];
         const address = headers['x-address'];
 
-        if(!address || !role || !token){
+        if(!address || !role || !accessToken){
             return res.status(400).json({
                 message: 'missing headers'
             });

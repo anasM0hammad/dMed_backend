@@ -3,6 +3,7 @@ const cors = require('cors');
 const { default: mongoose } = require('mongoose');
 require('dotenv').config();
 const authRoutes = require('./src/routes/auth.route');
+const userRoutes = require('./src/routes/user.route');
 const { authorizationGuard } = require('./src/controllers/helper.controller');
 
 const app = express();
@@ -11,6 +12,7 @@ app.use(express.json());
 
 app.use('/auth', authRoutes);
 app.use('/api', authorizationGuard);
+app.use('/api', userRoutes);
 
 const dbUri = process.env.MONGODB_URI;
 if(!dbUri){

@@ -44,7 +44,7 @@ const createPrescription = async (req, res, next) => {
         const prescription = new Prescription({ doctor, patient, status });
         await prescription.save();
         return res.status(201).json({
-            message: 'created'
+            prescriptionId: prescription._id
         });
     }
     catch(error){
